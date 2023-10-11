@@ -5,6 +5,7 @@ from sqlalchemy import pool
 
 from alembic import context
 
+from src.database.models import Category, Question
 from settings import REAL_DATABASE_URL
 from src.database import Base
 
