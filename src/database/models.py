@@ -27,7 +27,7 @@ class Question(Base):
         Integer, primary_key=True
     )
     ques: Mapped[str] = mapped_column(
-        String(325), unique=True, nullable=False, name="Вопрос из викторины"
+        String(525), unique=True, nullable=False, name="Вопрос из викторины"
     )
     answer: Mapped[str] = mapped_column(
         String(125), nullable=False, name="Ответ на вопрос"

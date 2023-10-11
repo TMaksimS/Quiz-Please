@@ -8,10 +8,12 @@ class MyModel(BaseModel):
 
 
 class CreateCategory(MyModel):
+    """Для создания категории"""
     name: str
 
 
 class GetQuestionBySite(MyModel):
+    """Для валидации вопроса с сайта"""
     ques: str
     answer: str
     category: CreateCategory
@@ -20,10 +22,12 @@ class GetQuestionBySite(MyModel):
 
 
 class GetQuestion(GetQuestionBySite):
+    """Для API ответа модели вопроса"""
     id: int
 
 
 class CreateQuestion(MyModel):
+    """Для создания вопроса в БД"""
     ques: str
     answer: str
     created_at: datetime.datetime
@@ -31,12 +35,14 @@ class CreateQuestion(MyModel):
 
 
 class GetCategory(MyModel):
+    """Для валидации категории с вопрсами"""
     id: int
     name: str
     questions: list[GetQuestion]
 
 
 class ResponseQue(MyModel):
+    """Для валидации вопроса из БД"""
     id: int
     ques: str
     answer: str
@@ -46,6 +52,7 @@ class ResponseQue(MyModel):
 
 
 class ResponseQueWithPage(MyModel):
+    """Для списка вопросов с пагинацией"""
     data: list[ResponseQue]
     limit: int
     offset: int

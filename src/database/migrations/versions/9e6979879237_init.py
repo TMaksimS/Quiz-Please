@@ -28,7 +28,7 @@ def upgrade() -> None:
     )
     op.create_table('questions',
     sa.Column('id', sa.Integer(), nullable=False),
-    sa.Column('Вопрос из викторины', sa.String(length=325), nullable=False),
+    sa.Column('Вопрос из викторины', sa.String(length=525), nullable=False),
     sa.Column('Ответ на вопрос', sa.String(length=125), nullable=False),
     sa.Column('Дата создания', sa.TIMESTAMP(timezone=True), nullable=False),
     sa.Column('Номер записи на сайта', sa.Integer(), nullable=False),

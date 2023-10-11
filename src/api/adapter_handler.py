@@ -10,12 +10,13 @@ from settings import LOGER
 app = APIRouter(prefix="/site", tags=["adapter"])
 
 
-@app.post("/{questions_num}")
+@app.post("/")
 @LOGER.catch
 async def create_questions(
         questions_num: int,
         session: AsyncSession = Depends(get_db)
 ) -> GetQuestion:
+    """Создает новые записи в БД"""
     connectdb = CategoryDB(session=session)
     req = Collector()
     reqdata = await req.parser(await req.get_json(questions_num))
