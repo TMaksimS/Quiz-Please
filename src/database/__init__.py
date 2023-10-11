@@ -7,7 +7,7 @@ from settings import REAL_DATABASE_URL
 
 engine = create_async_engine(
     REAL_DATABASE_URL,
-    echo=True
+    echo=False
 )
 
 async_session_maker = sessionmaker(

@@ -1,0 +1,48 @@
+version: "v2.21.0"
+services:
+  db:
+    env_file:
+      - .env
+    container_name: db
+    image: postgres:15.3-alpine3.17
+    restart: always
+    environment:
+      - POSTGRES_USER=${DB_USER}
+      - POSTGRES_PASSWORD=${DB_PASS}
+      - POSTGRES_DB=${DB_NAME}
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: sh -c "pg_isready -U postgres -h localhost"
+      interval: 5s
+      timeout: 5s
+      retries: 3
+    networks:
+      - custom
+    volumes:
+      - ./docker_volumes/remotedb:/var/lib/postgresql/data
+  app:
+    container_name: app
+    image: myapp
+    restart: always
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      REAL_DATABASE_URL: postgresql+asyncpg://${DB_USER}:${DB_PASS}@db/${DB_NAME}
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: sh -c "alembic upgrade head && sleep 2 && python3 main.py"
+    ports:
+      - "8000:8000"
+    healthcheck:
+      test: sh -c "curl http://app:8000"
+      interval: 5s
+      timeout: 5s
+      retries: 6
+    networks:
+      - custom
+networks:
+  custom:
+    driver: bridge
