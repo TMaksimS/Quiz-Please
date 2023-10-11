@@ -53,10 +53,12 @@ async def get_all_questions(
     """Возвращает limit вопросов в одном ответе"""
     data = CategoryDB(session=session)
     result = await data.get_question_with_page(limit=limit, offset=offset)
-    if result[0]:
-        return ResponseQueWithPage(
-            data=result,
-            limit=limit,
-            offset=offset,
-        )
-    return HTTPException(status_code=404, detail="Data not found")
+    try:
+        if result[0]:
+            return ResponseQueWithPage(
+                data=result,
+                limit=limit,
+                offset=offset,
+            )
+    except IndexError:
+        return HTTPException(status_code=404, detail="Data not found")
